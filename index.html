@@ -1,0 +1,296 @@
+<html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>RUHUL  VIP HACK</title>    <!-- Import Stylish Font -->    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">    <style>  
+    * { margin: 0; padding: 0; box-sizing: border-box; }  
+    body {  
+      background: linear-gradient(135deg, #000000, #0d0d0d, #1a1a1a);  
+      color: white;  
+      font-family: 'Poppins', sans-serif;  
+      display: flex;  
+      justify-content: center;  
+      align-items: center;  
+      height: 100vh;  
+      text-align: center;  
+      padding: 10px;  
+      overflow: hidden;  
+    }  
+  
+    /* Matrix Rain Canvas Background */  
+    canvas {  
+      position: fixed;  
+      top: 0;  
+      left: 0;  
+      width: 100%;  
+      height: 100%;  
+      z-index: -1; /* behind everything */  
+      background: radial-gradient(circle at center, #000000, #050505, #000000);  
+    }  
+  
+    .container {  
+      width: 90%;  
+      max-width: 400px;  
+      padding: 25px;  
+      background: rgba(0, 0, 0, 0.7);  
+      border-radius: 15px;  
+      box-shadow: 0 0 20px rgba(0, 255, 128, 0.6), 0 0 40px rgba(0, 128, 255, 0.4);  
+      animation: glowBox 3s infinite alternate;  
+      z-index: 1;  
+    }  
+  
+    @keyframes glowBox {  
+      from { box-shadow: 0 0 20px rgba(0, 255, 128, 0.6), 0 0 40px rgba(0, 128, 255, 0.4); }  
+      to   { box-shadow: 0 0 30px rgba(0, 200, 255, 0.8), 0 0 60px rgba(0, 255, 128, 0.6); }  
+    }  
+  
+    h1 {  
+      font-size: 28px;  
+      color: #00ffcc;  
+      font-weight: bold;  
+      text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #0099ff;  
+      margin-bottom: 20px;  
+    }  
+  
+    input {  
+      width: 100%;  
+      padding: 12px;  
+      margin: 12px 0;  
+      border: 2px solid #00ffcc;  
+      border-radius: 8px;  
+      background: #111;  
+      color: white;  
+      text-align: center;  
+      font-size: 16px;  
+      box-shadow: 0 0 10px #00ffcc;  
+      transition: all 0.3s ease;  
+    }  
+  
+    input:focus {  
+      outline: none;  
+      box-shadow: 0 0 20px #00ffcc, 0 0 40px #00ff99;  
+      border-color: #00ccff;  
+    }  
+  
+    button {  
+      width: 100%;  
+      padding: 12px;  
+      border: none;  
+      border-radius: 8px;  
+      background: linear-gradient(45deg, #00ffcc, #00ff66);  
+      color: #000;  
+      font-size: 18px;  
+      font-weight: bold;  
+      cursor: pointer;  
+      box-shadow: 0 0 15px #00ffcc, 0 0 30px #00ff66;  
+      transition: all 0.3s ease;  
+    }  
+  
+    button:hover {  
+      background: linear-gradient(45deg, #00ccff, #00ff99);  
+      box-shadow: 0 0 25px #00ffcc, 0 0 45px #00ff99;  
+      transform: scale(1.05);  
+    }  
+  
+    .error {  
+      color: #ff4444;  
+      margin-top: 10px;  
+      font-size: 14px;  
+      display: none;  
+    }  
+  
+    .telegram-link {  
+      margin-top: 15px;  
+      display: flex;  
+      justify-content: center;  
+      align-items: center;  
+      gap: 10px;  
+    }  
+  
+    .telegram-link img {  
+      width: 30px;  
+      height: 30px;  
+    }  
+  
+    .telegram-link a {  
+      color: #00ffcc;  
+      text-decoration: none;  
+      font-size: 14px;  
+      text-shadow: 0 0 10px #00ffcc;  
+    }  
+  
+    .telegram-link a:hover {  
+      color: #00ccff;  
+    }  
+  
+    /* Prediction Page */  
+    #prediction-page {  
+      display: none;  
+      position: relative;  
+      overflow: hidden;  
+    }  
+  
+    .box {  
+      display: inline-block;  
+      padding: 10px 15px;  
+      font-size: 18px;  
+      font-weight: bold;  
+      margin: 5px;  
+      border-radius: 8px;  
+      border: 2px solid #00ffcc;  
+      background: rgba(0, 255, 255, 0.1);  
+      text-shadow: 0 0 5px #00ffcc;  
+    }  
+  
+    .period-box { color: #00ffcc; }  
+    .big { color: #00ff66; }  
+    .small { color: #00ccff; }  
+    .number-box { color: #00ffcc; }  
+  
+    .predict-btn {  
+      padding: 12px 20px;  
+      font-size: 16px;  
+      background: linear-gradient(45deg, #00ffcc, #00ff66);  
+      color: #000;  
+      font-weight: bold;  
+      border: none;  
+      cursor: pointer;  
+      margin-top: 20px;  
+      border-radius: 8px;  
+      box-shadow: 0 0 15px #00ffcc;  
+      transition: all 0.3s ease;  
+    }  
+  
+    .predict-btn:hover {  
+      background: linear-gradient(45deg, #00ccff, #00ff99);  
+      transform: scale(1.05);  
+      box-shadow: 0 0 25px #00ffcc, 0 0 45px #00ff99;  
+    }  
+  
+    #live-result {  
+      font-size: 16px;  
+      font-weight: bold;  
+      color: #00ffcc;  
+      margin-top: 15px;  
+      text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ff99;  
+    }  
+  </style>  </head>  
+<body>    <!-- Matrix Rain Background -->  <canvas id="matrix"></canvas>
+
+  <!-- LOGIN PAGE -->    <div id="login-box" class="container">  
+    <h1>Enter Passcode</h1>  
+    <input type="password" id="password" placeholder="Enter Key">  
+    <button onclick="checkLogin()">Unlock</button>  
+    <p class="error" id="error-message">Wrong Key! Try Again.</p>  
+    <div class="telegram-link">  
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram Logo">  
+      <a href="https://t.me/htproapp" target="_blank">  Hack Channel JOIN </a>  
+    </div>  
+  </div>    <!-- PREDICTION SYSTEM -->    <div id="prediction-page" class="container">  
+    <h1>𝐇𝐓 𝟓𝐗 𝐏𝐑𝐎 𝐓𝐄𝐀𝐌 </h1>  
+    <p id="result" class="result">PERIOD: <span class="box period-box">20250919100010157</span></p>  
+    <p id="signal" class="signal">SIGNAL: <span class="box small">Small</span></p>  
+    <p id="prediction" class="prediction">PREDICTED NUMBERS: <span class="box number-box">3/6</span></p>  
+    <p id="live-result">✅ LIVE DATA UPDATED!</p>  
+    <button class="predict-btn" onclick="fetchPrediction()">Predict</button>  
+  </div>    <script>  
+    // Matrix Rain Effect  
+    const canvas = document.getElementById('matrix');  
+    const ctx = canvas.getContext('2d');  
+  
+    canvas.height = window.innerHeight;  
+    canvas.width = window.innerWidth;  
+  
+    const letters = "アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";  
+    const fontSize = 14;  
+    const columns = canvas.width / fontSize;  
+    const drops = [];  
+  
+    for (let x = 0; x < columns; x++) {  
+      drops[x] = 1;  
+    }  
+  
+    function draw() {  
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";  
+      ctx.fillRect(0, 0, canvas.width, canvas.height);  
+  
+      ctx.fillStyle = "#0F0";  
+      ctx.font = fontSize + "px monospace";  
+  
+      for (let i = 0; i < drops.length; i++) {  
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));  
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);  
+  
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {  
+          drops[i] = 0;  
+        }  
+        drops[i]++;  
+      }  
+    }  
+  
+    setInterval(draw, 33);  
+  
+    // Login Check  
+    function checkLogin() {  
+      var pass = document.getElementById("password").value;  
+      if (pass === "RAKIBVIP") {  
+        document.getElementById("login-box").style.display = "none";  
+        document.getElementById("prediction-page").style.display = "block";  
+        fetchPrediction();  
+      } else {  
+        document.getElementById("error-message").style.display = "block";  
+      }  
+    }  
+  
+    // API Part  
+    const API_URL = 'https://api.bdg88zf.com/api/webapi/GetGameIssue';  
+    const REQUEST_DATA = {  
+      typeId: 1,  
+      language: 0,  
+      random: "e7fe6c090da2495ab8290dac551ef1ed",  
+      signature: "1F390E2B2D8A55D693E57FD905AE73A7",  
+      timestamp: 1723726679  
+    };  
+  
+    let periodResults = {};  
+  
+    function fetchPrediction() {  
+      fetch(API_URL, {  
+        method: "POST",  
+        headers: { "Content-Type": "application/json;charset=UTF-8" },  
+        body: JSON.stringify(REQUEST_DATA)  
+      })  
+      .then(response => response.json())  
+      .then(data => {  
+        if (data && data.data) {  
+          let issueNumber = data.data.issueNumber || "Unknown";  
+          if (!periodResults[issueNumber]) {  
+            let num1 = Math.floor(Math.random() * 10);  
+            let num2 = (num1 + 3) % 10;  
+  
+            let sumDigits = issueNumber.split('').reduce((acc, num) => acc + parseInt(num), 0);  
+            let bigSmallPrediction = sumDigits % 2 === 0 ? "Big" : "Small";  
+  
+            periodResults[issueNumber] = {  
+              bigSmallPrediction,  
+              predictedNumbers: `${num1}/${num2}`  
+            };  
+          }  
+          let { bigSmallPrediction, predictedNumbers } = periodResults[issueNumber];  
+          document.getElementById("result").innerHTML = `PERIOD: <span class="box period-box">${issueNumber}</span>`;  
+          document.getElementById("signal").innerHTML = `SIGNAL: <span class="box ${bigSmallPrediction.toLowerCase()}">${bigSmallPrediction}</span>`;  
+          document.getElementById("prediction").innerHTML = `PREDICTED NUMBERS: <span class="box number-box">${predictedNumbers}</span>`;  
+          document.getElementById("live-result").innerHTML = "✅ LIVE DATA UPDATED!";  
+        } else {  
+          document.getElementById("live-result").innerHTML = "⚠️ ERROR!";  
+        }  
+      })  
+      .catch(error => {  
+        document.getElementById("live-result").innerHTML = "⚠️ ERROR!";  
+        console.error("API Fetch Error:", error);  
+      });  
+    }  
+  
+    setInterval(fetchPrediction, 10000);  
+  </script>  </body>  
+</html>

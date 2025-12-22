@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HT 5X PRO HACK SYSTEM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; overflow: hidden; touch-action: none; }
+        .bg-custom-red { background-color: #8B0000; } 
+        .btn-red { background-color: #E3524F; }
+        .input-box { background-color: #f9f9f9; border: 1px solid #eee; border-radius: 12px; padding: 12px; width: 100%; outline: none; font-size: 14px; }
+        
+        /* Selection Panel Background */
+        #panelSection { display: none; background: radial-gradient(circle, #0a192f 0%, #02050a 100%); height: 100vh; width: 100%; position: fixed; top: 0; left: 0; z-index: 100; flex-direction: column; justify-content: center; align-items: center; }
+        
+        .glass-box { width: 330px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 30px; padding: 25px; text-align: center; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        
+        .hack-btn { width: 100%; background: linear-gradient(90deg, #000428, #004e92); color: #00f2ff; border: 1px solid #00f2ff; padding: 14px; border-radius: 15px; margin-bottom: 12px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Floating Signal Panel */
+        #signalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; }
+        .web-frame { width: 100%; height: 100%; border: none; }
+        
+        .floating-signal {
+            position: absolute; top: 25%; left: 15%; width: 220px; background: rgba(2, 5, 10, 0.95);
+            border: 2px solid #00f2ff; border-radius: 20px; padding: 12px; text-align: center;
+            color: white; box-shadow: 0 0 30px rgba(0, 242, 255, 0.5); cursor: move; user-select: none;
+        }
+
+        .res-box { background: rgba(255,255,255,0.05); padding: 8px; margin: 5px 0; border-radius: 10px; border: 1px solid rgba(0,242,255,0.1); }
+        .timer-txt { color: #ff00ff; font-weight: bold; font-size: 20px; text-shadow: 0 0 8px #ff00ff; }
+        
+        /* Admin Panel Styling */
+        #adminPanel { display: none; background: #000; color: #fff; height: 100vh; width: 100%; position: fixed; top: 0; z-index: 1000; padding: 20px; overflow-y: auto; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body onload="checkAutoLogin()">
+
+    <div id="authSection">
+        <div class="bg-custom-red text-white p-8 pb-20 rounded-b-[50px] text-center">
+            <h1 id="pageTitle" class="text-2xl font-bold text-left">Register</h1>
+            <h2 class="mt-10 text-xl font-black italic tracking-widest">HT 5X PRO HACK</h2>
+        </div>
+        <div class="px-6 -mt-12">
+            <div class="bg-white rounded-[35px] p-8 shadow-2xl">
+                <div id="regBox">
+                    <form id="regForm" class="space-y-4">
+                        <input id="rPhone" type="number" placeholder="Phone Number (10 digits)" class="input-box" required>
+                        <input id="rPass" type="password" placeholder="Create Password" class="input-box" required>
+                        <button type="submit" class="w-full btn-red text-white font-bold py-4 rounded-full uppercase shadow-lg">Create Account</button>
+                        <p onclick="toggleAuth(true)" class="text-center text-sm text-gray-500 mt-4 cursor-pointer">Already registered? <span class="text-red-600 font-bold">Login</span></p>
+                    </form>
+                </div>
+                <div id="loginBox" class="hidden">
+                    <form id="loginForm" class="space-y-4">
+                        <input id="lPhone" type="text" placeholder="Phone Number" class="input-box" required>
+                        <input id="lPass" type="password" placeholder="Password" class="input-box" required>
+                        <button type="submit" class="w-full btn-red text-white font-bold py-4 rounded-full uppercase shadow-lg">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="panelSection">
+        <div class="text-white mb-6 font-bold bg-cyan-900/30 px-6 py-2 rounded-full border border-cyan-500/50">
+            UID: <span id="userUIDDisplay" class="text-cyan-400">HT-XXXXX</span>
+        </div>
+        <div class="glass-box">
+            <h2 class="text-white font-bold mb-6 text-lg tracking-widest uppercase">Select Game</h2>
+            <button class="hack-btn" onclick="checkActive('𝐃𝐊𝐖𝐈𝐍', 'https://www.dkwin.xyz/#/login')">𝐃𝐊𝐖𝐈𝐍 𝐇𝐀𝐂𝐊</button>
+            <button class="hack-btn" onclick="checkActive('𝐇𝐆𝐙𝐘', 'https://hgnice.biz/#/login')">𝐇𝐆𝐙𝐘 𝐁𝐃𝐓 𝐇𝐀𝐂𝐊</button>
+            <button class="hack-btn" onclick="checkActive('𝐀𝐌𝐀𝐑 𝐂𝐋𝐔𝐁', 'https://amarclub17.com/#/login')">𝐀𝐌𝐀𝐑 𝐂𝐋𝐔𝐁 𝐇𝐀𝐂𝐊</button>
+            
+            <a href="https://t.me/RAKIBIWNER" target="_blank" class="block bg-[#0088cc] text-white p-3 rounded-xl font-bold mt-4 no-underline text-sm shadow-blue-500/50 shadow-lg">
+                <i class="fab fa-telegram-plane mr-2"></i> ACCOUNT ACTIVE
+            </a>
+            <button onclick="logout()" class="mt-6 text-gray-500 text-xs underline">LOGOUT ACCOUNT</button>
+        </div>
+    </div>
+
+    <div id="adminPanel">
+        <h2 class="text-2xl font-bold text-cyan-400 mb-6 border-b border-gray-800 pb-2">Admin Control</h2>
+        <div class="bg-gray-900 p-5 rounded-2xl border border-gray-700 mb-6">
+            <input id="uidInput" type="text" placeholder="Enter UID (Ex: HT-12345)" class="w-full bg-black border border-gray-700 p-3 rounded-lg mb-4 text-cyan-400 outline-none">
+            <button onclick="activateManual()" class="w-full bg-cyan-600 py-3 rounded-lg font-bold">ACTIVATE MEMBER</button>
+        </div>
+        <div class="bg-gray-900 p-5 rounded-2xl border border-gray-700">
+            <h3 class="text-sm font-bold text-gray-400 mb-4 uppercase">Member List</h3>
+            <div id="userTable" class="space-y-3"></div>
+        </div>
+        <button onclick="location.reload()" class="w-full mt-8 text-gray-500 text-sm underline">EXIT ADMIN</button>
+    </div>
+
+    <div id="signalOverlay">
+        <iframe id="gameFrame" class="web-frame" src=""></iframe>
+        <div id="movablePanel" class="floating-signal">
+            <h2 id="appName" class="text-cyan-400 font-bold text-xs mb-2">---</h2>
+            <div class="res-box"><span id="timer" class="timer-txt">00:30</span></div>
+            <div class="res-box"><span id="bsRes" class="text-lg text-yellow-400 font-bold uppercase">---</span></div>
+            <div class="res-box"><span id="numRes" class="text-lg text-white font-bold">---</span></div>
+            <button onclick="closeHack()" class="mt-3 text-[10px] text-red-500 border border-red-500 px-4 py-1 rounded-full font-bold uppercase">Exit Hack</button>
+        </div>
+    </div>
+
+    <script>
+        // Database & Session Logic
+        let users = JSON.parse(localStorage.getItem('ht_pro_db')) || {};
+        let currentLoggedUser = localStorage.getItem('ht_logged_in_phone') || "";
+
+        function checkAutoLogin() {
+            if (currentLoggedUser && users[currentLoggedUser]) {
+                goToPanel(currentLoggedUser);
+            }
+        }
+
+        function toggleAuth(isLogin) {
+            document.getElementById('regBox').classList.toggle('hidden', isLogin);
+            document.getElementById('loginBox').classList.toggle('hidden', !isLogin);
+            document.getElementById('pageTitle').innerText = isLogin ? "Login" : "Register";
+        }
+
+        document.getElementById('regForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const phone = document.getElementById('rPhone').value;
+            const pass = document.getElementById('rPass').value;
+            
+            if(users[phone]) return alert("This phone is already registered!");
+            
+            const uid = "HT-" + Math.floor(10000 + Math.random() * 90000);
+            users[phone] = { pass, uid, active: false };
+            saveToStorage();
+            alert("Registration Success!\nYour UID: " + uid);
+            toggleAuth(true);
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const phone = document.getElementById('lPhone').value;
+            const pass = document.getElementById('lPass').value;
+
+            // Admin Access
+            if(phone === "1326367640" && pass === "Admin") {
+                showAdmin(); return;
+            }
+
+            if(users[phone] && users[phone].pass === pass) {
+                localStorage.setItem('ht_logged_in_phone', phone);
+                goToPanel(phone);
+            } else {
+                alert("Invalid Phone or Password!");
+            }
+        });
+
+        function goToPanel(phone) {
+            currentLoggedUser = phone;
+            document.getElementById('userUIDDisplay').innerText = users[phone].uid;
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('panelSection').style.display = 'flex';
+        }
+
+        function logout() {
+            localStorage.removeItem('ht_logged_in_phone');
+            location.reload();
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('ht_pro_db', JSON.stringify(users));
+        }
+
+        // Admin Functions
+        function showAdmin() {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            renderUserTable();
+        }
+
+        function renderUserTable() {
+            const table = document.getElementById('userTable');
+            table.innerHTML = "";
+            for(let p in users) {
+                table.innerHTML += `<div class="flex justify-between items-center bg-black/50 p-3 rounded-xl border border-gray-800">
+                    <span class="text-xs text-cyan-200">${users[p].uid}<br><small class="text-gray-500">${p}</small></span>
+                    <button onclick="toggleActive('${p}')" class="px-4 py-1 rounded-lg text-xs font-bold ${users[p].active ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}">
+                        ${users[p].active ? 'Active' : 'Activate'}
+                    </button>
+                </div>`;
+            }
+        }
+
+        function toggleActive(p) {
+            users[p].active = !users[p].active;
+            saveToStorage();
+            renderUserTable();
+        }
+
+        function activateManual() {
+            const uid = document.getElementById('uidInput').value.trim().toUpperCase();
+            let found = false;
+            for(let p in users) {
+                if(users[p].uid === uid) { users[p].active = true; found = true; }
+            }
+            if(found) {
+                saveToStorage(); renderUserTable();
+                alert("Member Activated Successfully!");
+                document.getElementById('uidInput').value = "";
+            } else { alert("UID not found on this device database!"); }
+        }
+
+        // Signal Logic
+        function checkActive(name, url) {
+            if(users[currentLoggedUser] && users[currentLoggedUser].active) {
+                openHack(name, url);
+            } else {
+                alert("Your Account is NOT Active!\nPlease click 'ACCOUNT ACTIVE' to contact admin.");
+            }
+        }
+
+        function openHack(name, url) {
+            document.getElementById('appName').innerText = name + " PRO HACK";
+            document.getElementById('gameFrame').src = url;
+            document.getElementById('panelSection').style.display = 'none';
+            document.getElementById('signalOverlay').style.display = 'block';
+            startSignalLoop();
+        }
+
+        function closeHack() {
+            document.getElementById('signalOverlay').style.display = 'none';
+            document.getElementById('panelSection').style.display = 'flex';
+            clearInterval(window.hClock);
+        }
+
+        function startSignalLoop() {
+            const refresh = () => {
+                document.getElementById('bsRes').innerText = Math.random() > 0.4 ? "𝐁𝐈𝐆" : "𝐒𝐌𝐀𝐋𝐋";
+                document.getElementById('numRes').innerText = "NUMBER: " + Math.floor(Math.random() * 10);
+            };
+            refresh();
+            let s = 30;
+            window.hClock = setInterval(() => {
+                s--;
+                document.getElementById('timer').innerText = `00:${s < 10 ? '0' + s : s}`;
+                if(s <= 0) { s = 30; refresh(); }
+            }, 1000);
+        }
+
+        // Draggable Logic (Mobile & PC)
+        const panel = document.getElementById('movablePanel');
+        let isDragging = false, offset = [0,0];
+        
+        const start = (e) => {
+            isDragging = true;
+            const ev = e.touches ? e.touches[0] : e;
+            offset = [panel.offsetLeft - ev.clientX, panel.offsetTop - ev.clientY];
+        };
+        const move = (e) => {
+            if(!isDragging) return;
+            const ev = e.touches ? e.touches[0] : e;
+            panel.style.left = (ev.clientX + offset[0]) + 'px';
+            panel.style.top = (ev.clientY + offset[1]) + 'px';
+        };
+        const end = () => isDragging = false;
+
+        panel.addEventListener('mousedown', start);
+        panel.addEventListener('touchstart', start);
+        window.addEventListener('mousemove', move);
+        window.addEventListener('touchmove', move);
+        window.addEventListener('mouseup', end);
+        window.addEventListener('touchend', end);
+
+    </script>
+</body>
+</html>

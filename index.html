@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>⚡ 𝐇𝐓 𝟓𝐗 𝐏𝐑𝐎 𝐕𝐈𝐏 𝐇𝐀𝐂𝐊 ⚡</title>
+    <style>
+        /* --- বেসিক সেটআপ --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            overflow: hidden;
+            color: white;
+            background: #000;
+        }
+
+        /* --- অ্যানিমেটেড কালার ব্যাকগ্রাউন্ড --- */
+        #home-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite; /* ব্যাকগ্রাউন্ড কালার অ্যানিমেশন */
+            z-index: 1000;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* চ্যানেল নাম ঝিলিক ইফেক্ট */
+        .channel-name {
+            font-size: 26px; font-weight: 900; margin-bottom: 30px;
+            text-align: center; text-transform: uppercase;
+            animation: rainbowText 1.2s linear infinite;
+        }
+
+        .btn-list { display: flex; flex-direction: column; gap: 15px; width: 85%; max-width: 360px; }
+
+        .game-btn {
+            text-decoration: none; color: #fff; font-size: 18px; font-weight: bold;
+            padding: 15px; border-radius: 15px; background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #fff; text-align: center; text-transform: uppercase;
+            cursor: pointer; animation: btnGlow 2s infinite alternate;
+        }
+
+        /* ওয়েবসাইট ভিউয়ার */
+        #site-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; background: #000; z-index: 1;
+        }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* লোগো আইকন */
+        #dock-icon {
+            position: fixed; top: 100px; left: 20px; width: 60px; height: 60px;
+            background: #000; border: 3px solid #fff; border-radius: 50%;
+            display: none; justify-content: center; align-items: center;
+            z-index: 10001; cursor: pointer; overflow: hidden;
+            animation: rgbBorder 1.5s linear infinite, rotateIcon 7s linear infinite;
+        }
+        #dock-icon img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* প্যানেল ডিজাইন (আপনার আগের প্রিমিয়াম লুক) */
+        #viewport {
+            position: fixed; top: 50px; left: 20px; width: 220px;
+            background: rgba(0, 0, 0, 0.95); border-radius: 15px; 
+            z-index: 10002; touch-action: none; overflow: hidden;
+            border: 2px solid #fff; display: none;
+            animation: rgbBorder 2s linear infinite;
+        }
+
+        .drag-bar { 
+            background: rgba(255, 255, 255, 0.1); padding: 12px; 
+            display: flex; justify-content: space-between; align-items: center; cursor: move;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .app-name { font-size: 11px; font-weight: bold; animation: rainbowText 1.5s linear infinite; }
+
+        .main-display { padding: 25px 10px; text-align: center; }
+        .timer-row { font-size: 10px; margin-bottom: 8px; font-weight: bold; animation: rainbowText 2s linear infinite; }
+        
+        #result-status { 
+            font-size: 45px; font-weight: 900; margin: 5px 0; 
+            text-transform: uppercase; animation: blinkEffect 0.5s infinite alternate; 
+        }
+
+        .meta-info { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
+        .meta-box { 
+            background: rgba(255, 255, 255, 0.07); padding: 10px; border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .m-label { font-size: 8px; color: #fff; display: block; margin-bottom: 4px; font-weight: bold; }
+        .m-value { font-size: 16px; font-weight: bold; color: #fff; }
+
+        .controls { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .btn-panel { 
+            background: #000; border: 1px solid #fff; color: #fff; 
+            padding: 10px; border-radius: 8px; font-size: 11px; 
+            font-weight: bold; cursor: pointer; text-transform: uppercase; 
+        }
+
+        /* --- এনিমেশনসমূহ --- */
+        @keyframes rgbBorder {
+            0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+            33% { border-color: #00ff00; box-shadow: 0 0 15px #00ff00; }
+            66% { border-color: #00f2ff; box-shadow: 0 0 15px #00f2ff; }
+            100% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+        }
+        @keyframes rainbowText {
+            0% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+            50% { color: #00f2ff; text-shadow: 0 0 10px #00f2ff; }
+            100% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+        }
+        @keyframes btnGlow {
+            0% { border-color: #fff; box-shadow: 0 0 5px #fff; }
+            100% { border-color: #00f2ff; box-shadow: 0 0 20px #ff00ff; }
+        }
+        @keyframes blinkEffect { from { opacity: 1; transform: scale(1); } to { opacity: 0.7; transform: scale(1.05); } }
+        @keyframes rotateIcon { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="home-screen">
+        <h1 class="channel-name">⚡𝐇𝐓 𝟓𝐗 𝐏𝐑𝐎 𝐕𝐈𝐏 𝐇𝐀𝐂𝐊⚡</h1>
+        <div class="btn-list">
+            <div class="game-btn" onclick="launchGame('https://www.dkwin.xyz/#/login')">𝟏. 𝐃𝐊𝐖𝐈𝐍</div>
+            <div class="game-btn" onclick="launchGame('https://amarclub17.com/#/login')">𝟐. 𝐀𝐌𝐀𝐑 𝐂𝐋𝐔𝐁</div>
+            <div class="game-btn" onclick="launchGame('https://hgnice.biz/#/login')">𝟑. 𝐇𝐆𝐙𝐘</div>
+            <a href="https://t.me/htproapp" target="_blank" class="game-btn" style="background: #0088cc; border:none; animation: none;">JOIN TELEGRAM</a>
+        </div>
+    </div>
+
+    <div id="site-container">
+        <iframe id="game-frame" src=""></iframe>
+    </div>
+
+    <div id="dock-icon" onclick="openPanel()">
+        <img src="https://i.ibb.co/HWTzmRr/image.jpg" alt="Logo">
+    </div>
+
+    <div id="viewport">
+        <div class="drag-bar">
+            <span class="app-name">𝐇𝐓 𝟓𝐗 𝐏𝐑𝐎 𝐕𝐈𝐏 𝐇𝐀𝐂𝐊</span>
+            <div style="width: 8px; height: 8px; background: #00ff00; border-radius: 50%; box-shadow: 0 0 10px #00ff00; animation: blinkEffect 0.3s infinite alternate;"></div>
+        </div>
+        <div class="main-display">
+            <div class="timer-row">⚡ SCANNING: <span id="timer">00:30</span> ⚡</div>
+            <h1 id="result-status" style="color: #ff3b3b;">BIG</h1>
+            
+            <div class="meta-info">
+                <div class="meta-box">
+                    <span class="m-label">VIP CODE</span>
+                    <span class="m-value" id="target-num">07</span>
+                </div>
+                <div class="meta-box">
+                    <span class="m-label">SIGNAL</span>
+                    <span class="m-value" id="node-color" style="color: #ff3b3b;">RED</span>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <button class="btn-panel" onclick="hideToIcon()">MINIMIZE PANEL</button>
+            <button class="btn-panel" onclick="location.reload()">BACK TO HOME</button>
+        </div>
+    </div>
+
+    <script>
+        const homeScreen = document.getElementById("home-screen");
+        const siteContainer = document.getElementById("site-container");
+        const gameFrame = document.getElementById("game-frame");
+        const dockIcon = document.getElementById("dock-icon");
+        const hackPanel = document.getElementById("viewport");
+        const timerVal = document.getElementById("timer");
+
+        let time = 30;
+
+        function launchGame(url) {
+            gameFrame.src = url;
+            homeScreen.style.display = "none";
+            siteContainer.style.display = "block";
+            setTimeout(() => { dockIcon.style.display = "flex"; }, 2000);
+        }
+
+        function openPanel() { 
+            hackPanel.style.display = "block"; 
+            dockIcon.style.display = "none"; 
+            hackPanel.style.top = dockIcon.style.top; 
+            hackPanel.style.left = dockIcon.style.left; 
+        }
+        
+        function hideToIcon() { 
+            hackPanel.style.display = "none"; 
+            dockIcon.style.display = "flex"; 
+            dockIcon.style.top = hackPanel.style.top; 
+            dockIcon.style.left = hackPanel.style.left; 
+        }
+
+        // ড্র্যাগিং লজিক
+        function makeDraggable(el) {
+            let p1 = 0, p2 = 0, p3 = 0, p4 = 0;
+            el.onmousedown = start; el.ontouchstart = start;
+            function start(e) {
+                const ev = e.type === 'touchstart' ? e.touches[0] : e;
+                p3 = ev.clientX; p4 = ev.clientY;
+                document.onmouseup = end; document.ontouchend = end;
+                document.onmousemove = move; document.ontouchmove = move;
+            }
+            function move(e) {
+                const ev = e.type === 'touchmove' ? e.touches[0] : e;
+                p1 = p3 - ev.clientX; p2 = p4 - ev.clientY;
+                p3 = ev.clientX; p4 = ev.clientY;
+                el.style.top = (el.offsetTop - p2) + "px"; el.style.left = (el.offsetLeft - p1) + "px";
+            }
+            function end() { document.onmouseup = null; document.onmousemove = null; document.ontouchend = null; document.ontouchmove = null; }
+        }
+        makeDraggable(hackPanel); makeDraggable(dockIcon);
+
+        function updateSignal() {
+            const isSmall = Math.random() > 0.5;
+            document.getElementById("result-status").innerText = isSmall ? "SMALL" : "BIG";
+            document.getElementById("result-status").style.color = isSmall ? "#00ff88" : "#ff3b3b";
+            document.getElementById("node-color").innerText = isSmall ? "GREEN" : "RED";
+            document.getElementById("node-color").style.color = isSmall ? "#00ff88" : "#ff3b3b";
+            document.getElementById("target-num").innerText = "0" + Math.floor(Math.random()*10);
+        }
+
+        setInterval(() => {
+            time--;
+            if (time < 0) { time = 30; updateSignal(); }
+            timerVal.innerText = `00:${time < 10 ? '0' + time : time}`;
+        }, 1000);
+        updateSignal();
+    </script>
+</body>
+</html>
+

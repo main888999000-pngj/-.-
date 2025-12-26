@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Income - Final Master Pro</title>
+    
+    <script src='//libtl.com/sdk.js' data-zone='10376289' data-sdk='show_10376289'></script>
+    
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; height: 100vh; background: #000; overflow: hidden; display: flex; flex-direction: column; color: #fff; }
+
+        .bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: radial-gradient(circle at 50% 50%, #1a1a2e, #000); }
+        
+        /* Auth Page */
+        #auth-page { position: fixed; inset: 0; background: #000; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .auth-card { background: rgba(255, 255, 255, 0.1); padding: 25px; border-radius: 20px; border: 2px solid #FFD700; width: 100%; max-width: 400px; text-align: center; backdrop-filter: blur(10px); }
+
+        /* UI Elements */
+        .header { padding: 15px; display: flex; align-items: center; background-color: #87CEEB; z-index: 100; border-bottom: 2px solid #fff; color: #000; }
+        .main-logo { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; }
+        .page { flex-grow: 1; display: none; flex-direction: column; align-items: center; z-index: 10; padding: 20px; overflow-y: auto; padding-bottom: 100px; }
+        .list-card { background: rgba(255, 255, 255, 0.1); width: 100%; padding: 20px; margin-bottom: 15px; border-radius: 15px; border: 1px solid #FFD700; text-align: center; font-weight: bold; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: none; font-size: 16px; background: #fff; color: #000; outline: none; }
+        .action-btn { background: #FFD700; border: none; padding: 15px; border-radius: 12px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; color: #000; margin-top: 10px; }
+
+        /* Admin Styles */
+        .admin-section { width: 100%; margin-top: 20px; }
+        .admin-table-container { overflow-x: auto; width: 100%; background: #111; border-radius: 10px; border: 1px solid #444; }
+        .admin-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: center; color: #fff; }
+        .admin-table th, .admin-table td { border: 1px solid #333; padding: 10px; }
+        .admin-table th { background: #FFD700; color: #000; }
+
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; padding: 15px 0; background: #fff; z-index: 100; border-top: 1px solid #ddd; }
+        .nav-item { text-align: center; flex: 1; cursor: pointer; font-size: 12px; font-weight: bold; color: #000; }
+        #custom-alert { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; padding: 20px; background: #111; border: 2px solid #FFD700; border-radius: 15px; text-align: center; z-index: 3000; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-container"></div>
+
+    <div id="auth-page">
+        <div class="auth-card" id="login-box">
+            <h2 style="color: #FFD700;">লগইন</h2>
+            <input type="text" id="log-user" placeholder="ইউজার নেম">
+            <input type="password" id="log-pass" placeholder="পাসওয়ার্ড">
+            <button class="action-btn" onclick="login()">প্রবেশ করুন</button>
+            <p onclick="toggleAuth()" style="cursor:pointer; margin-top:15px; color:#FFD700;">অ্যাকাউন্ট নেই? সাইন আপ করুন</p>
+        </div>
+        <div class="auth-card" id="reg-box" style="display: none;">
+            <h2 style="color: #FFD700;">সাইন আপ</h2>
+            <input type="text" id="reg-user" placeholder="ইউজার নেম">
+            <input type="password" id="reg-pass" placeholder="পাসওয়ার্ড">
+            <input type="number" id="reg-ref" placeholder="রেফার কোড (ঐচ্ছিক)">
+            <button class="action-btn" onclick="register()">অ্যাকাউন্ট খুলুন</button>
+            <p onclick="toggleAuth()" style="cursor:pointer; margin-top:15px; color:#FFD700;">অ্যাকাউন্ট আছে? লগইন করুন</p>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="page" style="background: #000; display: none; z-index: 5000;">
+        <h2 style="color: #FFD700;">ADMIN CONTROL</h2>
+        
+        <div class="admin-section">
+            <p style="color:#FFD700; margin:5px;">👥 মোট মেম্বার তথ্য:</p>
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead><tr><th>নাম</th><th>UID</th><th>ব্যালেন্স</th><th>রেফার</th></tr></thead>
+                    <tbody id="admin-user-list"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <p style="color:#FFD700; margin:5px;">💸 উইথড্র রিকোয়েস্ট:</p>
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead><tr><th>UID</th><th>মেথড</th><th>নাম্বার</th><th>পরিমাণ</th><th>অ্যাকশন</th></tr></thead>
+                    <tbody id="admin-wd-list"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="list-card" style="margin-top:20px;">
+            <p>ম্যানুয়াল ব্যালেন্স/রেফার অ্যাড</p>
+            <input type="number" id="adm-target-uid" placeholder="ইউজার UID">
+            <input type="number" id="adm-val" placeholder="পরিমাণ">
+            <div style="display:flex; gap:10px;">
+                <button class="action-btn" onclick="adminAction('bal')">টাকা দিন</button>
+                <button class="action-btn" style="background:#fff;" onclick="adminAction('ref')">রেফার দিন</button>
+            </div>
+        </div>
+        <button class="action-btn" style="background:red; color:#fff;" onclick="location.reload()">এডমিন প্যানেল বন্ধ করুন</button>
+    </div>
+
+    <div id="main-content" style="display: none; flex-direction: column; height: 100%;">
+        <div class="header">
+            <img src="https://i.postimg.cc/4yCYtZP7/Gemini-Generated-Image-eql6qzeql6qzeql6.png" class="main-logo">
+            <div style="margin-left: 10px;">
+                <div id="display-name" style="font-weight: bold;">User Name</div>
+                <div id="display-uid" style="font-size: 11px;">UID: 000000</div>
+                <button onclick="logout()" style="background:#ff4d4d; color:#fff; border:none; padding:2px 8px; border-radius:5px; cursor:pointer; font-size:10px;">Logout</button>
+            </div>
+        </div>
+
+        <div id="home-page" class="page" style="display: flex;">
+            <div class="list-card">ব্যালেন্স: <span id="bal-show">0.00</span> টাকা</div>
+            <div id="status-card" class="list-card">লোড হচ্ছে...</div>
+        </div>
+
+        <div id="video-page" class="page">
+            <div id="inactive-view" style="width:100%;">
+                <div class="list-card" style="background: #ff4d4d;">১০টি অ্যাড দেখে আইডি একটিভ করুন</div>
+                <button class="action-btn" onclick="watchActivationAd()">অ্যাড দেখুন (<span id="act-count">0</span>/10)</button>
+            </div>
+            <div id="active-view" style="display: none; width: 100%;">
+                <button id="v-btn" class="action-btn" onclick="showMainVideoAd()">📺 ভিডিও দেখুন (০.৫০ টাকা)</button>
+                <div id="timer" style="color: #FFD700; font-weight: bold; margin-top: 10px; display: none;">অপেক্ষা করুন: 15s</div>
+            </div>
+        </div>
+
+        <div id="refer-page" class="page">
+            <div class="list-card">আপনার রেফার কোড: <h2 id="my-ref-code" style="color:#FFD700;">000000</h2></div>
+            <div class="list-card" style="text-align: left; font-size: 13px; font-weight: normal;">
+                <strong style="color: #FFD700;">🎁 রেফারেল বোনাস নিয়ম:</strong><br>
+                ১. প্রতি সফল রেফারে আপনি পাবেন <b>২.০০ টাকা</b> বোনাস।<br>
+                ২. আপনার রেফার করা মেম্বার যখন টাকা উইথড্র করবে, তখন আপনি সেই টাকার <b>৫% কমিশন</b> পাবেন।
+            </div>
+            <div class="list-card">মোট রেফার: <span id="ref-count">0</span></div>
+            <button class="action-btn" onclick="copyRef()">কোড কপি করুন</button>
+        </div>
+
+        <div id="withdraw-page" class="page">
+            <div class="list-card">ব্যালেন্স: <span class="bal-val">0.00</span> টাকা</div>
+            <select id="wd-method"><option value="Bkash">বিকাশ</option><option value="Nagad">নগদ</option></select>
+            <input type="number" id="wd-num" placeholder="মোবাইল নাম্বার">
+            <input type="number" id="wd-amt" placeholder="পরিমাণ (১০০+)">
+            <button class="action-btn" onclick="handleWithdraw()">উইথড্র রিকোয়েস্ট পাঠান</button>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="showPage('home-page')">🏠 হোম</div>
+            <div class="nav-item" onclick="showPage('video-page')">📺 ভিডিও</div>
+            <div class="nav-item" onclick="showPage('refer-page')">👥 রেফার</div>
+            <div class="nav-item" onclick="showPage('withdraw-page')">💸 উইথড্র</div>
+        </div>
+    </div>
+
+    <div id="custom-alert">
+        <div id="alert-msg" style="color:#fff;"></div>
+        <button onclick="closeMessage()" style="margin-top:15px; padding:10px 20px; background:#FFD700; border:none; border-radius:10px; cursor:pointer; font-weight:bold;">ঠিক আছে</button>
+    </div>
+
+    <script>
+        const STORAGE_USERS = "MASTER_USERS_DATABASE";
+        const STORAGE_WD = "MASTER_WITHDRAW_DATABASE";
+        const SESSION_USER = "ACTIVE_UID";
+
+        function getUsers() { return JSON.parse(localStorage.getItem(STORAGE_USERS)) || []; }
+        function saveUsers(data) { localStorage.setItem(STORAGE_USERS, JSON.stringify(data)); }
+        function getWD() { return JSON.parse(localStorage.getItem(STORAGE_WD)) || []; }
+        function saveWD(data) { localStorage.setItem(STORAGE_WD, JSON.stringify(data)); }
+
+        function toggleAuth() {
+            document.getElementById('login-box').style.display = document.getElementById('login-box').style.display === 'none' ? 'block' : 'none';
+            document.getElementById('reg-box').style.display = document.getElementById('reg-box').style.display === 'none' ? 'block' : 'none';
+        }
+
+        function register() {
+            let n = document.getElementById('reg-user').value.trim();
+            let p = document.getElementById('reg-pass').value.trim();
+            let r = document.getElementById('reg-ref').value.trim();
+            if(!n || !p) return alert("তথ্য পূরণ করুন");
+            let users = getUsers();
+            let uid = Math.floor(100000 + Math.random() * 900000);
+            let newUser = { name: n, pass: p, uid: uid, balance: 0, isActive: false, actAds: 0, referrals: 0, bossUID: r ? parseInt(r) : null };
+            
+            if(newUser.bossUID) {
+                let boss = users.find(u => u.uid === newUser.bossUID);
+                if(boss) { boss.balance += 2; boss.referrals += 1; }
+            }
+            
+            users.push(newUser);
+            saveUsers(users);
+            alert("সফল! আপনার UID: " + uid);
+            toggleAuth();
+        }
+
+        function login() {
+            let n = document.getElementById('log-user').value.trim();
+            let p = document.getElementById('log-pass').value.trim();
+            if(n === "ADMIN" && p === "ADMIN2025@") { renderAdmin(); return; }
+            let user = getUsers().find(u => u.name === n && u.pass === p);
+            if(user) { localStorage.setItem(SESSION_USER, user.uid); location.reload(); } else alert("ভুল তথ্য");
+        }
+
+        function updateUI() {
+            let uid = localStorage.getItem(SESSION_USER);
+            let user = getUsers().find(u => u.uid == uid);
+            if(!user) return;
+            document.getElementById('display-name').innerText = user.name;
+            document.getElementById('display-uid').innerText = "UID: " + user.uid;
+            document.getElementById('bal-show').innerText = user.balance.toFixed(2);
+            document.querySelectorAll('.bal-val').forEach(e => e.innerText = user.balance.toFixed(2));
+            document.getElementById('my-ref-code').innerText = user.uid;
+            document.getElementById('ref-count').innerText = user.referrals;
+            document.getElementById('act-count').innerText = user.actAds;
+            let st = document.getElementById('status-card');
+            if(user.isActive) {
+                st.innerText = "স্ট্যাটাস: একটিভ ✅"; st.style.background = "#2ecc71";
+                document.getElementById('inactive-view').style.display = 'none';
+                document.getElementById('active-view').style.display = 'block';
+            } else { st.innerText = "স্ট্যাটাস: আনএকটিভ ❌"; st.style.background = "#ff4d4d"; }
+        }
+
+        function handleWithdraw() {
+            let amt = parseFloat(document.getElementById('wd-amt').value);
+            let num = document.getElementById('wd-num').value;
+            let met = document.getElementById('wd-method').value;
+            let users = getUsers();
+            let user = users.find(u => u.uid == localStorage.getItem(SESSION_USER));
+
+            if(amt < 100 || num.length < 10) return showMessage("সঠিক তথ্য দিন");
+            if(user.balance < amt) return showMessage("ব্যালেন্স পর্যাপ্ত নয়");
+
+            if(user.bossUID) {
+                let boss = users.find(u => u.uid === user.bossUID);
+                if(boss) boss.balance += (amt * 0.05);
+            }
+
+            let wds = getWD();
+            wds.push({ uid: user.uid, met: met, num: num, amt: amt });
+            saveWD(wds);
+
+            user.balance -= amt;
+            saveUsers(users);
+            updateUI();
+            showMessage("উইথড্র রিকোয়েস্ট সফল হয়েছে!");
+        }
+
+        function renderAdmin() {
+            document.getElementById('auth-page').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'flex';
+            
+            let uList = document.getElementById('admin-user-list');
+            uList.innerHTML = "";
+            getUsers().forEach(u => {
+                uList.innerHTML += `<tr><td>${u.name}</td><td>${u.uid}</td><td>${u.balance.toFixed(2)}</td><td>${u.referrals}</td></tr>`;
+            });
+
+            let wList = document.getElementById('admin-wd-list');
+            wList.innerHTML = "";
+            getWD().forEach((w, i) => {
+                wList.innerHTML += `<tr><td>${w.uid}</td><td>${w.met}</td><td>${w.num}</td><td>${w.amt}</td><td><button onclick="delWD(${i})" style="background:red; color:#fff; border:none; border-radius:3px;">মুছুন</button></td></tr>`;
+            });
+        }
+
+        function delWD(i) { let wds = getWD(); wds.splice(i, 1); saveWD(wds); renderAdmin(); }
+
+        function adminAction(type) {
+            let uid = document.getElementById('adm-target-uid').value;
+            let val = parseFloat(document.getElementById('adm-val').value);
+            let users = getUsers();
+            let user = users.find(u => u.uid == uid);
+            if(user) {
+                if(type === 'bal') user.balance += val; else user.referrals += val;
+                saveUsers(users); alert("সফল!"); renderAdmin();
+            } else alert("ইউজার পাওয়া যায়নি");
+        }
+
+        function watchActivationAd() {
+            window.open("https://otieu.com/4/10376309", "_blank");
+            let users = getUsers();
+            let user = users.find(u => u.uid == localStorage.getItem(SESSION_USER));
+            user.actAds++;
+            if(user.actAds >= 10) user.isActive = true;
+            saveUsers(users); updateUI();
+        }
+
+        function showMainVideoAd() { if (typeof show_10376289 === 'function') { show_10376289().then(() => { runTimer(); }); } else runTimer(); }
+
+        function runTimer() {
+            let btn = document.getElementById('v-btn'); btn.disabled = true;
+            document.getElementById('timer').style.display = 'block';
+            let t = 15;
+            let i = setInterval(() => {
+                t--; document.getElementById('timer').innerText = `অপেক্ষা করুন: ${t}s`;
+                if(t <= 0) {
+                    clearInterval(i);
+                    let users = getUsers();
+                    let user = users.find(u => u.uid == localStorage.getItem(SESSION_USER));
+                    user.balance += 0.50; saveUsers(users);
+                    btn.disabled = false; document.getElementById('timer').style.display = 'none';
+                    updateUI(); showMessage("টাকা ব্যালেন্সে যোগ হয়েছে!");
+                }
+            }, 1000);
+        }
+
+        function showPage(id) { document.querySelectorAll('.page').forEach(p => p.style.display='none'); document.getElementById(id).style.display='flex'; }
+        function logout() { localStorage.removeItem(SESSION_USER); location.reload(); }
+        function showMessage(m) { document.getElementById('alert-msg').innerText = m; document.getElementById('custom-alert').style.display='block'; }
+        function closeMessage() { document.getElementById('custom-alert').style.display='none'; }
+        function copyRef() { navigator.clipboard.writeText(localStorage.getItem(SESSION_USER)); alert("কপি হয়েছে!"); }
+
+        window.onload = function() { if(localStorage.getItem(SESSION_USER)) { document.getElementById('auth-page').style.display = 'none'; document.getElementById('main-content').style.display = 'flex'; updateUI(); } }
+    </script>
+</body>
+</html>

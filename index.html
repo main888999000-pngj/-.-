@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HT 5X PRO ADS - PERFECT VERSION</title>
+    
+    <script src='//libtl.com/sdk.js' data-zone='10376289' data-sdk='show_10376289'></script>
+    
+    <style>
+        :root {
+            --primary-bg: #f8faff;
+            --accent-purple: #7042f4;
+            --main-gradient: linear-gradient(135deg, #7b42f6, #4b73f5);
+            --card-shadow: 0 8px 24px rgba(112, 66, 244, 0.12);
+        }
+
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; transition: 0.3s; }
+        body { margin: 0; background: var(--primary-bg); color: #333; height: 100vh; overflow: hidden; }
+
+        /* Navigation */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; background: #fff; padding: 12px 0; border-top: 1px solid #eee; z-index: 1000; }
+        .nav-item { flex: 1; text-align: center; font-size: 10px; color: #999; cursor: pointer; }
+        .nav-item.active { color: var(--accent-purple); font-weight: bold; }
+        .nav-item span { display: block; font-size: 22px; margin-bottom: 2px; }
+
+        .page { height: 100vh; overflow-y: auto; display: none; padding: 20px 20px 100px; }
+        .active-page { display: block; }
+
+        /* User UI Elements */
+        .balance-box { background: var(--main-gradient); border-radius: 24px; padding: 35px 20px; color: white; text-align: center; box-shadow: var(--card-shadow); margin-bottom: 25px; }
+        .balance-box h1 { font-size: 36px; margin: 10px 0; font-weight: 800; }
+
+        .action-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px; }
+        .action-card { background: #fff; border-radius: 18px; padding: 15px 5px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer; }
+        .action-card .icon-circle { width: 45px; height: 45px; background: #e9e4ff; color: var(--accent-purple); border-radius: 50%; margin: 0 auto 8px; line-height: 45px; font-size: 20px; }
+        .action-card label { font-size: 11px; font-weight: 600; color: #555; }
+
+        .robot-img { width: 180px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .btn-main { background: var(--accent-purple); color: white; border: none; padding: 16px; width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; }
+        input, select, textarea { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #eee; border-radius: 12px; outline: none; }
+
+        .progress-container { background: #fff; padding: 20px; border-radius: 20px; box-shadow: var(--card-shadow); margin-top: 20px; }
+        .progress-bg { background: #eee; height: 12px; border-radius: 10px; margin: 10px 0; overflow: hidden; }
+        .progress-fill { background: var(--accent-purple); height: 100%; width: 0%; transition: 0.5s; }
+
+        /* Admin UI */
+        #admin-panel { position: fixed; inset: 0; background: #fff; z-index: 5000; display: none; padding: 20px; overflow-y: auto; }
+        .adm-card { background: #f9f9fb; padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; }
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        th, td { border: 1px solid #eee; padding: 8px; text-align: center; }
+        th { background: var(--accent-purple); color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div id="gift-notif" style="position:fixed; top:10px; left:5%; width:90%; background:#2ecc71; color:white; padding:15px; border-radius:12px; display:none; z-index:9999; text-align:center;"></div>
+
+    <div id="auth-page" style="position:fixed; inset:0; background:#fff; z-index:2000; display:flex; align-items:center; justify-content:center; text-align:center;">
+        <div style="width:85%;">
+            <img src="https://i.postimg.cc/x8xp5JMM/IMG-20251226-194325-999.jpg" style="width:100px; border-radius:50%; margin-bottom:20px;">
+            <h3>𝐇𝐓 𝟓𝐗 𝐏𝐑𝐎 𝐀𝐃𝐒</h3>
+            <input type="text" id="log-user" placeholder="Username">
+            <input type="password" id="log-pass" placeholder="Password">
+            <input type="number" id="log-refer" placeholder="Refer Code (Optional)">
+            <button class="btn-main" onclick="handleAuth()">CONNECT NOW</button>
+        </div>
+    </div>
+
+    <div id="admin-panel">
+        <h2 style="color:var(--accent-purple)">👑 Master Admin</h2>
+        
+        <div class="adm-card">
+            <b>👥 User Database (Stats)</b>
+            <div style="overflow-x:auto; margin-top:10px;">
+                <table>
+                    <thead>
+                        <tr><th>User(UID)</th><th>Bal</th><th>Ads</th><th>Ref</th><th>Task</th><th>Time</th><th>Act</th></tr>
+                    </thead>
+                    <tbody id="adm-user-list"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="adm-card">
+            <b>⚙️ Control Actions</b>
+            <input type="number" id="adm-uid" placeholder="Target UID">
+            <input type="number" id="adm-val" placeholder="Value">
+            <div style="display:flex; gap:5px;">
+                <button onclick="adminAction('bal')" style="flex:1; background:green; color:white; border:none; padding:10px; border-radius:8px;">+ Bal</button>
+                <button onclick="adminAction('ref')" style="flex:1; background:blue; color:white; border:none; padding:10px; border-radius:8px;">+ Ref</button>
+                <button onclick="adminAction('gift')" style="flex:1; background:orange; color:white; border:none; padding:10px; border-radius:8px;">Gift</button>
+            </div>
+        </div>
+
+        <div class="adm-card">
+            <b>📋 Task Manager</b>
+            <input type="text" id="t-name" placeholder="Task Name">
+            <input type="text" id="t-link" placeholder="Link">
+            <input type="number" id="t-reward" placeholder="Reward">
+            <textarea id="t-desc" placeholder="Instructions"></textarea>
+            <button onclick="adminAddTask()" class="btn-main" style="padding:10px; margin-top:5px;">ADD TASK</button>
+            <div id="adm-task-list" style="margin-top:10px;"></div>
+        </div>
+
+        <div class="adm-card"><b>💸 Withdraw Logs</b><div id="adm-wd-list"></div></div>
+        
+        <button class="btn-main" style="background:red;" onclick="location.reload()">CLOSE ADMIN</button>
+    </div>
+
+    <div id="main-content" style="display:none;">
+        
+        <div id="home-page" class="page active-page">
+            <div style="text-align:center; margin-bottom:15px;">
+                <img src="https://i.postimg.cc/x8xp5JMM/IMG-20251226-194325-999.jpg" style="width:60px; border-radius:50%;">
+                <div style="font-weight:bold; font-size:14px;">𝐇𝐓 𝟓𝐗 𝐏𝐑𝐎 𝐀𝐃𝐒 𝐈𝐍𝐂𝐎𝐌𝐄 𝐁𝐎𝐓</div>
+            </div>
+            
+            <div class="balance-box">
+                <small>Main Balance</small>
+                <h1 id="bal-show">৳ 0.00</h1>
+            </div>
+
+            <div class="action-grid">
+                <div class="action-card" onclick="window.open('https://t.me/htproapp', '_blank')"><div class="icon-circle">🎧</div><label>Support</label></div>
+                <div class="action-card" onclick="showPage('refer-page', 'nav-refer')"><div class="icon-circle">👥</div><label>Invite</label></div>
+                <div class="action-card" onclick="showPage('withdraw-page', 'nav-withdraw')"><div class="icon-circle">💸</div><label>Withdraw</label></div>
+                <div class="action-card" onclick="showPage('task-page', 'nav-task')"><div class="icon-circle">📋</div><label>Task</label></div>
+            </div>
+
+            <div style="text-align:center;">
+                <img src="https://i.postimg.cc/jd4rHLJq/images-(30).jpg" class="robot-img">
+                <p><b>Unit UID:</b> <span id="u-uid-disp">000000</span></p>
+            </div>
+        </div>
+
+        <div id="video-page" class="page">
+            <div style="text-align:center;">
+                <button class="btn-main" onclick="playAdWithSDK()">▶ WATCH VIDEO AD (৳ 0.50)</button>
+                <div class="progress-container">
+                    <div style="display:flex; justify-content:space-between; font-weight:bold;">
+                        <span>Target Progress</span><span><span id="daily-count">0</span>/100</span>
+                    </div>
+                    <div class="progress-bg"><div id="progress-bar" class="progress-fill"></div></div>
+                    <small style="color:red; font-weight:bold;">⚠️ টার্গেট পূরণ না করলে পেমেন্ট রিজেক্ট হতে পারে।</small>
+                </div>
+            </div>
+        </div>
+
+        <div id="withdraw-page" class="page">
+            <select id="wd-method"><option value="Bkash">Bkash</option><option value="Nagad">Nagad</option></select>
+            <input type="number" id="wd-num" placeholder="Wallet Number">
+            <input type="number" id="wd-amt" placeholder="Min 500">
+            <button class="btn-main" onclick="handleWithdraw()">SUBMIT REQUEST</button>
+        </div>
+
+        <div id="profile-page" class="page">
+            <div style="text-align:center; margin-bottom:20px;">
+                <img src="https://i.postimg.cc/x8xp5JMM/IMG-20251226-194325-999.jpg" style="width:100px; border-radius:50%; border:4px solid var(--accent-purple);">
+                <h3 id="p-name">Username</h3>
+                <small id="p-uid">UID: 000000</small>
+            </div>
+            <div class="adm-card">
+                <p>Balance: <b id="p-bal">৳ 0.00</b></p>
+                <p>Ads Watched: <b id="p-ads">0</b></p>
+                <p>Daily Time: <b id="p-timer">00:00:00</b></p>
+            </div>
+            <button class="btn-main" style="background:#eee; color:red;" onclick="logout()">LOGOUT</button>
+        </div>
+
+        <div id="refer-page" class="page">
+            <div class="balance-box"><small>My Refer Code</small><h2 id="my-ref-code">000000</h2></div>
+            <button class="btn-main" onclick="copyRef()">COPY CODE</button>
+            <div class="adm-card" style="margin-top:20px; font-size:13px;">
+                <b>🎁 রেফার বোনাস:</b> প্রতি রেফারে ১ টাকা এবং ইউজারের আয়ের ৫% কমিশন।
+            </div>
+        </div>
+
+        <div id="task-page" class="page"><div id="user-task-list"></div></div>
+
+        <div class="bottom-nav">
+            <div id="nav-home" class="nav-item active" onclick="showPage('home-page', 'nav-home')"><span>🏠</span>Home</div>
+            <div id="nav-video" class="nav-item" onclick="showPage('video-page', 'nav-video')"><span>📺</span>Ads</div>
+            <div id="nav-task" class="nav-item" onclick="showPage('task-page', 'nav-task')"><span>📋</span>Task</div>
+            <div id="nav-profile" class="nav-item" onclick="showPage('profile-page', 'nav-profile')"><span>👤</span>Profile</div>
+        </div>
+    </div>
+
+    <script>
+        const DB_KEY = "HT_ULTIMATE_V3";
+        const S_UID = "HT_S_UID";
+        const T_KEY = "HT_TASK_DATA";
+        const W_KEY = "HT_WD_LOGS";
+
+        function getUsers() { return JSON.parse(localStorage.getItem(DB_KEY)) || []; }
+        function saveUsers(u) { localStorage.setItem(DB_KEY, JSON.stringify(u)); }
+        function getTasks() { return JSON.parse(localStorage.getItem(T_KEY)) || []; }
+
+        function handleAuth() {
+            let n = document.getElementById('log-user').value.trim();
+            let p = document.getElementById('log-pass').value.trim();
+            let r = document.getElementById('log-refer').value.trim();
+            if(n === "ADMIN" && p === "ADMIN2025@") return showAdmin();
+            if(!n || !p) return alert("Required fields!");
+
+            let users = getUsers();
+            let user = users.find(u => u.name === n);
+            if(user) {
+                if(user.blocked) return alert("BLOCKED!");
+                if(user.pass === p) { localStorage.setItem(S_UID, user.uid); location.reload(); }
+                else alert("Wrong Pass!");
+            } else {
+                let uid = Math.floor(100000 + Math.random() * 900000);
+                let newUser = { name: n, pass: p, uid: uid, balance: 0, dailyAds: 0, totalAds: 0, referCount: 0, taskCount: 0, workTime: 0, blocked: false, gift: "", completedTasks: [] };
+                if(r) { let boss = users.find(u => u.uid == r); if(boss) { boss.balance += 1; boss.referCount += 1; } }
+                users.push(newUser); saveUsers(users);
+                localStorage.setItem(S_UID, uid); location.reload();
+            }
+        }
+
+        let currentU = null;
+        function updateUI() {
+            let users = getUsers();
+            currentU = users.find(u => u.uid == localStorage.getItem(S_UID));
+            if(!currentU) return;
+
+            document.getElementById('bal-show').innerText = "৳ " + currentU.balance.toFixed(2);
+            document.getElementById('u-uid-disp').innerText = currentU.uid;
+            document.getElementById('p-name').innerText = currentU.name;
+            document.getElementById('p-uid').innerText = "UID: " + currentU.uid;
+            document.getElementById('p-bal').innerText = "৳ " + currentU.balance.toFixed(2);
+            document.getElementById('p-ads').innerText = currentU.totalAds;
+            document.getElementById('my-ref-code').innerText = currentU.uid;
+            document.getElementById('daily-count').innerText = currentU.dailyAds;
+            document.getElementById('progress-bar').style.width = Math.min(currentU.dailyAds, 100) + "%";
+
+            if(currentU.gift) {
+                let g = document.getElementById('gift-notif');
+                g.innerText = currentU.gift; g.style.display='block';
+                setTimeout(() => { g.style.display='none'; currentU.gift=""; saveNow(); }, 5000);
+            }
+
+            setInterval(() => {
+                currentU.workTime++;
+                document.getElementById('p-timer').innerText = formatT(currentU.workTime);
+                saveNow();
+            }, 1000);
+
+            renderUserTasks();
+        }
+
+        function saveNow() {
+            let u = getUsers();
+            let i = u.findIndex(x => x.uid == currentU.uid);
+            if(i !== -1) { u[i] = currentU; saveUsers(u); }
+        }
+
+        function formatT(s) {
+            let h = Math.floor(s/3600); let m = Math.floor((s%3600)/60); let sc = s%60;
+            return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sc).padStart(2,'0')}`;
+        }
+
+        function playAdWithSDK() {
+            if (typeof show_10376289 === 'function') {
+                show_10376289().then(() => {
+                    currentU.balance += 0.50; currentU.dailyAds += 1; currentU.totalAds += 1;
+                    saveNow(); location.reload();
+                });
+            } else alert("SDK Loading...");
+        }
+
+        function handleWithdraw() {
+            let amt = parseFloat(document.getElementById('wd-amt').value);
+            if(amt < 500 || currentU.balance < amt) return alert("Insufficient Balance (Min 500)!");
+            let logs = JSON.parse(localStorage.getItem(W_KEY)) || [];
+            logs.push({ name: currentU.name, uid: currentU.uid, method: document.getElementById('wd-method').value, num: document.getElementById('wd-num').value, amt: amt });
+            localStorage.setItem(W_KEY, JSON.stringify(logs));
+            currentU.balance -= amt; saveNow(); alert("Success!"); location.reload();
+        }
+
+        // Admin
+        function showAdmin() {
+            document.getElementById('auth-page').style.display='none';
+            document.getElementById('admin-panel').style.display='block';
+            let uhtml = "";
+            getUsers().forEach(u => {
+                uhtml += `<tr><td>${u.name}<br>(${u.uid})</td><td>${u.balance.toFixed(1)}</td><td>${u.totalAds}</td><td>${u.referCount}</td><td>${u.taskCount}</td><td>${formatT(u.workTime)}</td><td><button onclick="toggleB(${u.uid})" style="background:${u.blocked?'green':'red'}; color:white; border:none; padding:2px; font-size:10px;">${u.blocked?'Unblock':'Block'}</button></td></tr>`;
+            });
+            document.getElementById('adm-user-list').innerHTML = uhtml;
+
+            let wdhtml = "";
+            (JSON.parse(localStorage.getItem(W_KEY)) || []).forEach((w,i) => {
+                wdhtml += `<div class='adm-card' style='font-size:12px;'>${w.name} (${w.uid})<br>${w.method}: ${w.num}<br>Amt: ${w.amt} <button onclick='delWd(${i})'>PAID</button></div>`;
+            });
+            document.getElementById('adm-wd-list').innerHTML = wdhtml || "No Data";
+            renderAdminTasks();
+        }
+
+        function toggleB(uid) { let u = getUsers(); let x = u.find(i => i.uid == uid); x.blocked = !x.blocked; saveUsers(u); showAdmin(); }
+
+        function adminAction(type) {
+            let uid = document.getElementById('adm-uid').value;
+            let val = parseFloat(document.getElementById('adm-val').value);
+            let users = getUsers();
+            let u = users.find(x => x.uid == uid);
+            if(!u) return alert("User not found!");
+            if(type === 'bal') u.balance += val;
+            if(type === 'ref') u.referCount += val;
+            if(type === 'gift') u.gift = "🎁 Admin Gift: ৳" + val;
+            saveUsers(users); alert("Done!"); showAdmin();
+        }
+
+        function adminAddTask() {
+            let t = getTasks();
+            t.push({ id: Date.now(), name: document.getElementById('t-name').value, link: document.getElementById('t-link').value, reward: parseFloat(document.getElementById('t-reward').value), desc: document.getElementById('t-desc').value });
+            localStorage.setItem(T_KEY, JSON.stringify(t)); renderAdminTasks(); alert("Added!");
+        }
+
+        function renderAdminTasks() {
+            let t = getTasks(); let h = "";
+            t.forEach(x => { h += `<div style='font-size:11px;'>${x.name} <button onclick='delT(${x.id})' style='color:red;'>Del</button></div>`; });
+            document.getElementById('adm-task-list').innerHTML = h;
+        }
+
+        function delT(id) { let t = getTasks().filter(x => x.id != id); localStorage.setItem(T_KEY, JSON.stringify(t)); renderAdminTasks(); }
+        function delWd(i) { let l = JSON.parse(localStorage.getItem(W_KEY)); l.splice(i,1); localStorage.setItem(W_KEY, JSON.stringify(l)); showAdmin(); }
+
+        function renderUserTasks() {
+            let html = "";
+            getTasks().forEach(t => {
+                if(!currentU.completedTasks.includes(t.id)) {
+                    html += `<div class='adm-card'><b>${t.name}</b><p style='font-size:12px;'>${t.desc}</p><button class='btn-main' style='padding:10px;' onclick='doT("${t.link}", ${t.id}, ${t.reward})'>Start Task (৳${t.reward})</button></div>`;
+                }
+            });
+            document.getElementById('user-task-list').innerHTML = html || "<p style='text-align:center;'>No Task</p>";
+        }
+
+        function doT(l, id, r) {
+            window.open(l, '_blank');
+            currentU.balance += r; currentU.taskCount += 1; currentU.completedTasks.push(id);
+            saveNow(); alert("Reward Added!"); location.reload();
+        }
+
+        function showPage(id, navId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(id).classList.add('active-page');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(navId).classList.add('active');
+        }
+
+        function copyRef() { navigator.clipboard.writeText(currentU.uid); alert("Copied!"); }
+        function logout() { localStorage.removeItem(S_UID); location.reload(); }
+
+        window.onload = function() { if(localStorage.getItem(S_UID)) { document.getElementById('auth-page').style.display='none'; document.getElementById('main-content').style.display='block'; updateUI(); } }
+    </script>
+</body>
+</html>

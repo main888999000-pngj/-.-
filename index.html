@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Income App - Referral Code Update</title>
+    
+    <script src='//libtl.com/sdk.js' data-zone='10376289' data-sdk='show_10376289'></script>
+    
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; height: 100vh; background: #000; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+
+        /* ঝিলিক মিলিক ব্যাকগ্রাউন্ড */
+        .bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: radial-gradient(circle at 50% 50%, #1a1a2e, #000); }
+        .sparkle { position: absolute; width: 3px; height: 3px; border-radius: 50%; animation: twinkle var(--duration) infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.2); } }
+
+        /* সাইনআপ ও লগইন পেজ */
+        #auth-page { position: fixed; inset: 0; background: #000; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .auth-card { background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 20px; border: 2px solid #FFD700; width: 100%; text-align: center; backdrop-filter: blur(10px); }
+
+        /* আকাশী হেডার */
+        .header { padding: 15px; display: flex; align-items: center; background-color: #87CEEB; z-index: 100; border-bottom: 2px solid #fff; }
+        .main-logo { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; }
+        
+        /* লগ আউট বাটন */
+        .logout-btn { background: #ff4d4d; color: white; border: none; padding: 3px 12px; border-radius: 5px; font-size: 10px; cursor: pointer; margin-top: 5px; font-weight: bold; border: 1px solid #fff; }
+
+        .page { flex-grow: 1; display: none; flex-direction: column; align-items: center; z-index: 10; padding: 20px; overflow-y: auto; padding-bottom: 80px; }
+        .list-card { background: rgba(255, 255, 255, 0.1); color: #fff; width: 100%; padding: 20px; margin-bottom: 15px; border-radius: 20px; border: 1px solid #FFD700; text-align: center; font-weight: bold; }
+        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: none; font-size: 16px; outline: none; background: #fff; }
+        .action-btn { background: #FFD700; border: none; padding: 18px; border-radius: 15px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; color: #000; }
+        .glow-btn { animation: glowEffect 1.5s infinite alternate; }
+        @keyframes glowEffect { 0% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); } 100% { box-shadow: 0 0 30px #FFD700; } }
+
+        /* অ্যাডমিন টেবিল */
+        .admin-table-container { overflow-x: auto; width: 100%; margin-top: 10px; border-radius: 10px; border: 1px solid #FFD700; }
+        .admin-table { width: 100%; border-collapse: collapse; color: #fff; font-size: 11px; background: rgba(255,255,255,0.05); }
+        .admin-table th, .admin-table td { border: 1px solid #444; padding: 10px; text-align: center; }
+        .admin-table th { background: #FFD700; color: #000; }
+
+        /* নেভিগেশন বার */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; padding: 10px 0 25px; background: #fff; z-index: 100; }
+        .nav-item { text-align: center; flex: 1; cursor: pointer; font-size: 12px; font-weight: bold; color: #333; }
+
+        #custom-alert { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; padding: 25px; background: rgba(0, 0, 0, 0.95); border: 3px solid #FFD700; border-radius: 20px; text-align: center; z-index: 3000; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-container" id="bg-lights"></div>
+
+    <div id="auth-page">
+        <div class="auth-card" id="login-box">
+            <h2 style="color: #FFD700;">Login</h2>
+            <input type="text" id="log-user" placeholder="ইউজার নেম">
+            <input type="password" id="log-pass" placeholder="পাসওয়ার্ড">
+            <button class="action-btn glow-btn" onclick="login()">লগইন করুন</button>
+            <p style="color: #fff; margin-top: 15px;">অ্যাকাউন্ট নেই? <span onclick="toggleAuth()" style="color: #FFD700; cursor: pointer;">সাইন আপ</span></p>
+        </div>
+        <div class="auth-card" id="reg-box" style="display: none;">
+            <h2 style="color: #FFD700;">Sign Up</h2>
+            <input type="text" id="reg-user" placeholder="ইউজার নেম">
+            <input type="password" id="reg-pass" placeholder="পাসওয়ার্ড">
+            <input type="number" id="reg-ref-input" placeholder="রেফার কোড (যদি থাকে)">
+            <button class="action-btn glow-btn" onclick="register()">সাইন আপ করুন</button>
+            <p style="color: #fff; margin-top: 15px;">অ্যাকাউন্ট আছে? <span onclick="toggleAuth()" style="color: #FFD700; cursor: pointer;">লগইন</span></p>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="page" style="background: #000; display: none; padding-top: 20px;">
+        <h2 style="color: #FFD700;">ADMIN PANEL</h2>
+        <h3 style="color: #fff;">User Records</h3>
+        <div class="admin-table-container">
+            <table class="admin-table" id="admin-user-list">
+                <thead><tr><th>UID</th><th>Name</th><th>Active</th><th>Refs</th><th>Videos</th><th>Bal</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <button class="action-btn" style="background:red; color:#fff; margin-top: 20px;" onclick="location.reload()">Exit Admin</button>
+    </div>
+
+    <div id="main-content" style="display: none; flex-direction: column; height: 100%;">
+        <div class="header">
+            <img src="https://i.postimg.cc/4yCYtZP7/Gemini-Generated-Image-eql6qzeql6qzeql6.png" class="main-logo">
+            <div style="margin-left: 10px; color: #fff;">
+                <div id="display-name" style="font-weight: bold;">User Name</div>
+                <div id="display-uid" style="font-size: 11px; opacity: 0.8;">UID: 000000</div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div id="home-page" class="page" style="display: flex;">
+            <div class="list-card glow-btn">ব্যালেন্স: <span id="bal-show">0.00</span> টাকা</div>
+            <div id="status-card" class="list-card" style="background: #ff4d4d;">স্ট্যাটাস: আনএকটিভ ❌</div>
+        </div>
+
+        <div id="video-page" class="page">
+            <div id="inactive-view">
+                <div class="list-card" style="background: #ff4d4d;">একাউন্ট একটিভ করুন</div>
+                <button class="action-btn glow-btn" onclick="watchActivationAd()">বিজ্ঞাপন দেখুন (<span id="act-count">0</span>/10)</button>
+            </div>
+            <div id="active-view" style="display: none; width: 100%;">
+                <button id="v-btn" class="action-btn glow-btn" onclick="showMainVideoAd()">📺 ভিডিও দেখুন (৫০ পয়সা)</button>
+                <div id="timer" style="color: #FFD700; font-weight: bold; margin-top: 15px; display: none; text-align: center;">অপেক্ষা করুন: 15s</div>
+            </div>
+        </div>
+
+        <div id="refer-page" class="page">
+            <div class="list-card">মোট রেফার: <span id="ref-count">0</span></div>
+            <div class="list-card" style="font-size: 14px; font-weight: normal; line-height: 1.5;">
+                আপনার রেফার কোডটি ব্যবহার করে কেউ একাউন্ট খুললে আপনি পাবেন ২ টাকা বোনাস!
+            </div>
+            <input type="text" id="ref-code-box" readonly style="font-size: 24px; text-align: center; color: #000; font-weight: bold; letter-spacing: 3px;">
+            <button class="action-btn" onclick="copyRefCode()">কপি রেফার কোড</button>
+        </div>
+
+        <div id="withdraw-page" class="page">
+            <div class="list-card">ব্যালেন্স: <span class="bal-val">0.00</span> টাকা</div>
+            <input type="number" id="wd-amt" placeholder="টাকার পরিমাণ (১০০+)">
+            <button class="action-btn glow-btn" onclick="handleWithdraw()">উইথড্র করুন</button>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="showPage('home-page')">🏠<br>হোম</div>
+            <div class="nav-item" onclick="showPage('video-page')">📺<br>ভিডিও</div>
+            <div class="nav-item" onclick="showPage('refer-page')">👥<br>রেফার</div>
+            <div class="nav-item" onclick="showPage('withdraw-page')">💸<br>উইথড্র</div>
+        </div>
+    </div>
+
+    <div id="custom-alert">
+        <div id="alert-msg" style="color: #fff; font-weight: bold;"></div>
+        <button onclick="closeMessage()" style="margin-top: 15px; padding: 10px 20px; background: #FFD700; border: none; border-radius: 10px; cursor: pointer;">OK</button>
+    </div>
+
+    <script>
+        let users = JSON.parse(localStorage.getItem("premium_v5_db")) || [];
+        let wdRequests = JSON.parse(localStorage.getItem("premium_v5_wd")) || [];
+        let session = JSON.parse(localStorage.getItem("premium_v5_session")) || null;
+
+        function toggleAuth() {
+            document.getElementById('reg-box').style.display = document.getElementById('reg-box').style.display === 'none' ? 'block' : 'none';
+            document.getElementById('login-box').style.display = document.getElementById('login-box').style.display === 'none' ? 'block' : 'none';
+        }
+
+        function register() {
+            let u = document.getElementById('reg-user').value.trim();
+            let p = document.getElementById('reg-pass').value.trim();
+            let refInput = document.getElementById('reg-ref-input').value.trim();
+
+            if(!u || !p) return alert("সব তথ্য পূরণ করুন!");
+            if(users.find(x => x.name === u)) return alert("এই ইউজার নেমটি ইতিমধ্যে ব্যবহৃত!");
+
+            let newUser = { 
+                name: u, pass: p, 
+                uid: Math.floor(100000 + Math.random() * 900000), 
+                balance: 0, isActive: false, actAds: 0, referrals: 0, videos: 0, 
+                bossUID: refInput ? parseInt(refInput) : null 
+            };
+
+            // রেফার বোনাস লজিক
+            if(newUser.bossUID) {
+                let boss = users.find(x => x.uid === newUser.bossUID);
+                if(boss) { 
+                    boss.balance += 2; 
+                    boss.referrals += 1; 
+                } else {
+                    return alert("ভুল রেফার কোড! সঠিক কোড দিন অথবা খালি রাখুন।");
+                }
+            }
+
+            users.push(newUser);
+            localStorage.setItem("premium_v5_db", JSON.stringify(users));
+            alert("Registration Success! UID: " + newUser.uid + "\nPlease Login."); 
+            toggleAuth();
+        }
+
+        function login() {
+            let u = document.getElementById('log-user').value.trim();
+            let p = document.getElementById('log-pass').value.trim();
+            if(u === "ADMIN" && p === "ADMIN2025@") { document.getElementById('auth-page').style.display = 'none'; showAdmin(); return; }
+            let user = users.find(x => x.name === u && x.pass === p);
+            if(user) { 
+                session = user; 
+                localStorage.setItem("premium_v5_session", JSON.stringify(session)); 
+                startApp(); 
+            } else { alert("ভুল ইউজার নেম বা পাসওয়ার্ড!"); }
+        }
+
+        function logout() {
+            localStorage.removeItem("premium_v5_session");
+            location.reload();
+        }
+
+        function startApp() { 
+            document.getElementById('auth-page').style.display = 'none'; 
+            document.getElementById('main-content').style.display = 'flex'; 
+            updateUI(); 
+        }
+
+        function updateUI() {
+            if(!session) return;
+            document.getElementById('display-name').innerText = session.name;
+            document.getElementById('display-uid').innerText = "UID: " + session.uid;
+            document.getElementById('bal-show').innerText = session.balance.toFixed(2);
+            document.querySelectorAll('.bal-val').forEach(e => e.innerText = session.balance.toFixed(2));
+            document.getElementById('ref-count').innerText = session.referrals;
+            document.getElementById('act-count').innerText = session.actAds;
+            
+            // রেফার কোড বক্সে UID সেট করা
+            document.getElementById('ref-code-box').value = session.uid;
+            
+            if(session.isActive) {
+                document.getElementById('status-card').innerText = "স্ট্যাটাস: একটিভ ✅";
+                document.getElementById('status-card').style.background = "#2ecc71";
+                document.getElementById('inactive-view').style.display = 'none';
+                document.getElementById('active-view').style.display = 'block';
+            }
+            saveData();
+        }
+
+        function handleWithdraw() {
+            let amt = parseFloat(document.getElementById('wd-amt').value);
+            if(amt < 100) return showMessage("ন্যূনতম ১০০ টাকা উইথড্র করুন।");
+            if(session.balance < amt) return showMessage("পর্যাপ্ত ব্যালেন্স নেই।");
+
+            // ১০% কমিশন রেফারারকে প্রদান
+            if(session.bossUID) {
+                let boss = users.find(x => x.uid === session.bossUID);
+                if(boss) { boss.balance += (amt * 0.10); }
+            }
+
+            let req = { uid: session.uid, name: session.name, amount: amt, status: 'Pending' };
+            wdRequests.push(req);
+            localStorage.setItem("premium_v5_wd", JSON.stringify(wdRequests));
+            session.balance -= amt;
+            updateUI();
+            showMessage("উইথড্র সফল! আপনার রেফারার ১০% কমিশন পেয়েছেন।");
+        }
+
+        function showAdmin() {
+            document.getElementById('admin-panel').style.display = 'flex';
+            let tbody = document.querySelector("#admin-user-list tbody"); tbody.innerHTML = "";
+            users.forEach(u => { tbody.innerHTML += `<tr><td>${u.uid}</td><td>${u.name}</td><td>${u.isActive?'Y':'N'}</td><td>${u.referrals}</td><td>${u.videos}</td><td>${u.balance.toFixed(2)}</td></tr>`; });
+        }
+
+        function saveData() {
+            let idx = users.findIndex(x => x.uid === session.uid);
+            if(idx !== -1) { users[idx] = session; localStorage.setItem("premium_v5_db", JSON.stringify(users)); }
+        }
+
+        function showPage(id) { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById(id).style.display = 'flex'; }
+        
+        function watchActivationAd() { 
+            window.open("https://otieu.com/4/10376309", "_blank"); 
+            session.actAds++; 
+            if(session.actAds >= 10) session.isActive = true; 
+            updateUI(); 
+        }
+
+        function showMainVideoAd() { 
+            if (typeof show_10376289 === 'function') { 
+                show_10376289().then(() => { startTimer(); }); 
+            } else { startTimer(); } 
+        }
+
+        function startTimer() {
+            let btn = document.getElementById('v-btn'); btn.disabled = true; document.getElementById('timer').style.display = 'block';
+            let t = 15; let i = setInterval(() => {
+                t--; document.getElementById('timer').innerText = `অপেক্ষা করুন: ${t}s`;
+                if(t <= 0) { clearInterval(i); session.balance += 0.50; session.videos++; updateUI(); btn.disabled = false; document.getElementById('timer').style.display = 'none'; showMessage("ব্যালেন্স যোগ হয়েছে!"); }
+            }, 1000);
+        }
+
+        function copyRefCode() {
+            let copyText = document.getElementById("ref-code-box");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            alert("Refer Code Copied: " + copyText.value);
+        }
+
+        function showMessage(msg) { document.getElementById('alert-msg').innerText = msg; document.getElementById('custom-alert').style.display = 'block'; }
+        function closeMessage() { document.getElementById('custom-alert').style.display = 'none'; }
+        
+        function createLights() {
+            const container = document.getElementById('bg-lights');
+            for (let i = 0; i < 40; i++) {
+                let l = document.createElement('div'); l.className = 'sparkle'; l.style.left = Math.random() * 100 + '%'; l.style.top = Math.random() * 100 + '%';
+                l.style.background = '#FFD700'; l.style.setProperty('--duration', (2 + Math.random() * 3) + 's'); container.appendChild(l);
+            }
+        }
+        createLights(); if(session) startApp();
+    </script>
+</body>
+</html>

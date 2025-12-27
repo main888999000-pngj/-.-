@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>HT 5X PRO VIP HACK</title>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Segoe UI', sans-serif; }
+        #game-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 1; }
+        
+        #viewport {
+            position: fixed; top: 80px; left: 15px; width: 230px;
+            background: rgba(10, 10, 10, 0.98); border-radius: 15px; 
+            z-index: 10000; touch-action: none; overflow: hidden;
+            border: 2px solid #fff; animation: rgbBorder 2s linear infinite;
+        }
+
+        @keyframes rgbBorder {
+            0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+            50% { border-color: #00f2ff; box-shadow: 0 0 15px #00f2ff; }
+            100% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+        }
+
+        .drag-bar { background: rgba(255, 255, 255, 0.1); padding: 10px; display: flex; justify-content: space-between; align-items: center; cursor: move; }
+        .app-name { font-size: 11px; font-weight: bold; color: #fff; text-shadow: 0 0 5px #00f2ff; }
+        
+        .main-display { padding: 15px 10px; text-align: center; }
+        #period-display {
+            background: rgba(255,255,255,0.05); color: #00f2ff; font-size: 11px; font-weight: 900;
+            padding: 6px; border-radius: 8px; margin-bottom: 8px; border: 1px solid rgba(0, 242, 255, 0.3);
+            display: block; font-family: monospace; letter-spacing: 0.5px;
+        }
+
+        #timer { font-size: 18px; font-weight: bold; color: #ff3b3b; margin-bottom: 5px; display: block; }
+        #result-status { font-size: 45px; font-weight: 900; margin: 10px 0; text-transform: uppercase; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        
+        .meta-info { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .meta-box { background: rgba(255, 255, 255, 0.07); padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .m-label { font-size: 8px; color: #aaa; display: block; margin-bottom: 2px; }
+        .m-value { font-size: 16px; font-weight: bold; color: #fff; }
+
+        .controls { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .btn-prime { background: linear-gradient(45deg, #00f2ff, #0072ff); color: #000; padding: 12px; border-radius: 8px; text-align: center; font-weight: 900; text-decoration: none; font-size: 12px; text-transform: uppercase; box-shadow: 0 0 10px #00f2ff; }
+    </style>
+</head>
+<body>
+
+    <iframe src="https://www.dkwin.xyz/#/login" id="game-bg"></iframe>
+
+    <div id="viewport">
+        <div class="drag-bar" id="drag-handle">
+            <span class="app-name">𝐇𝐓 𝟓𝐗 𝐏𝐑𝐎 𝐕𝐈𝐏</span>
+            <div style="width: 10px; height: 10px; background: #00ff00; border-radius: 50%; box-shadow: 0 0 10px #00ff00;"></div>
+        </div>
+
+        <div class="main-display">
+            <div id="period-display">ID: <span id="period-number">SYNCING...</span></div>
+            <span id="timer">00:00</span>
+            
+            <h1 id="result-status">WAIT</h1>
+            
+            <div class="meta-info">
+                <div class="meta-box"><span class="m-label">NUMBER</span><span id="target-num" class="m-value">--</span></div>
+                <div class="meta-box"><span class="m-label">COLOR</span><span id="node-color" class="m-value">--</span></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <a href="https://t.me/htproapp" target="_blank" class="btn-prime">ACTIVATE VIP HACK</a>
+            <button onclick="location.reload()" style="background:none; border:none; color:#555; font-size:9px; cursor:pointer;">REFRESH SYSTEM</button>
+        </div>
+    </div>
+
+    <script>
+        const timerVal = document.getElementById("timer");
+        const periodVal = document.getElementById("period-number");
+        const resStatus = document.getElementById("result-status");
+        const targetNum = document.getElementById("target-num");
+        const nodeColor = document.getElementById("node-color");
+        let lastPeriod = "";
+
+        function syncEngine() {
+            const now = new Date();
+            const seconds = now.getSeconds();
+            
+            // ১. টাইমার সিঙ্ক (৩০ সেকেন্ড)
+            let remaining = 30 - (seconds % 30);
+            timerVal.innerText = `00:${remaining < 10 ? '0' + remaining : remaining}`;
+
+            // ২. পিরিয়ড আইডি সিঙ্ক (আপনার স্ক্রিনশটের অফসেট অনুযায়ী)
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const totalSec = (now.getHours() * 3600) + (now.getMinutes() * 60) + seconds;
+            
+            // অফসেটটি আপনার দেওয়া স্ক্রিনশটের পিরিয়ড আইডি অনুযায়ী সেট করা
+            const offset = 51135 - Math.floor(((15*3600) + (27*60)) / 30);
+            const finalSlot = Math.floor(totalSec / 30) + offset;
+            const currentPeriod = `${year}${month}${day}10005${finalSlot}`;
+            periodVal.innerText = currentPeriod;
+
+            // ৩. যখন নতুন পিরিয়ড শুরু হবে (টাইমার যখন ২৯/৩০ এ যাবে)
+            if (currentPeriod !== lastPeriod) {
+                lastPeriod = currentPeriod;
+                generateRandomHack();
+            }
+        }
+
+        function generateRandomHack() {
+            // র‍্যান্ডম লটারি লজিক (০-৯ নাম্বার)
+            const num = Math.floor(Math.random() * 10);
+            const isBig = num >= 5;
+
+            // ডিসপ্লে আপডেট
+            targetNum.innerText = num;
+            resStatus.innerText = isBig ? "BIG" : "SMALL";
+            resStatus.style.color = isBig ? "#ff3b3b" : "#00ff88";
+
+            // কালার সিলেকশন (গেমের আসল নিয়ম অনুযায়ী)
+            if (num === 0 || num === 5) {
+                nodeColor.innerText = "VIOLET";
+                nodeColor.style.color = "#ff00ff";
+            } else if (num % 2 === 0) {
+                nodeColor.innerText = "RED";
+                nodeColor.style.color = "#ff3b3b";
+            } else {
+                nodeColor.innerText = "GREEN";
+                nodeColor.style.color = "#00ff88";
+            }
+        }
+
+        setInterval(syncEngine, 500);
+
+        // ড্র্যাগিং সিস্টেম
+        function dragElement(el) {
+            let p1 = 0, p2 = 0, p3 = 0, p4 = 0;
+            const handle = document.getElementById("drag-handle");
+            handle.onmousedown = start; handle.ontouchstart = start;
+            function start(e) {
+                const ev = e.type === 'touchstart' ? e.touches[0] : e;
+                p3 = ev.clientX; p4 = ev.clientY;
+                document.onmouseup = end; document.ontouchend = end;
+                document.onmousemove = move; document.ontouchmove = move;
+            }
+            function move(e) {
+                const ev = e.type === 'touchmove' ? e.touches[0] : e;
+                p1 = p3 - ev.clientX; p2 = p4 - ev.clientY;
+                p3 = ev.clientX; p4 = ev.clientY;
+                el.style.top = (el.offsetTop - p2) + "px"; el.style.left = (el.offsetLeft - p1) + "px";
+            }
+            function end() { document.onmouseup = null; document.onmousemove = null; }
+        }
+        dragElement(document.getElementById("viewport"));
+        syncEngine();
+    </script>
+</body>
+</html>
